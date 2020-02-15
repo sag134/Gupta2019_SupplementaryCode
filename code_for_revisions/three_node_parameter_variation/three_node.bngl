@@ -1,0 +1,38 @@
+begin model
+begin molecule types
+A()
+B()
+C()
+end molecule types
+
+begin parameters
+k1 0
+k2 -10
+k3 -1
+k4 -10
+k5 -10
+k6 -10
+end parameters
+
+begin observables
+Molecules B B()
+end observables
+
+
+begin seed species
+A() 100
+end seed species
+
+
+begin reaction rules
+A() <-> B() 10^k1,10^k2
+B() <-> C() 10^k3,10^k4
+C() <-> A() 10^k5,10^k6
+end reaction rules
+
+end model
+generate_network({overwrite=>1})
+writeMfile({})
+writeMexfile({})
+
+simulate_ode({t_start=>0,t_end=>50,n_steps=>8,atol=>1.0E-6,rtol=>1.0E-8})

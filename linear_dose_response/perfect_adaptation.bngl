@@ -1,0 +1,36 @@
+begin model
+begin parameters
+	k1 1
+	k2 -10
+	k3 -10
+	k4 -10
+	E1 -2
+	E2 -10
+	Stot -10 #this is a dummy parameter
+end parameters
+begin molecule types
+	S()
+	R()
+	X()
+end molecule types
+begin seed species
+	S() 0
+	R() 0
+	X() 0
+end seed species
+begin observables
+	Molecules R R()
+end observables
+begin reaction rules
+	S() -> S() + R() 10^k1
+	X() + R() -> X() 10^k2
+	S()  -> S() + X() 10^k3
+	X() -> 0 10^k4
+	R() <-> 0 10^E1,10^E2
+end reaction rules
+end model
+
+# generate reaction network
+generate_network({overwrite=>1})
+setConcentration("S",1)
+simulate({prefix =>"1",method=>"ode",t_end=>800,n_steps=>3,atol=>1e-6,rtol=>1e-6})

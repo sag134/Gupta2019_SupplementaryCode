@@ -1,0 +1,64 @@
+begin model
+begin molecule types
+A()
+B()
+C()
+D()
+E()
+end molecule types
+
+begin parameters
+k1 -1
+k2 -20
+k3 -20
+k4 -20
+k5 -20
+k6 -20
+k7 0
+k8 -20
+k9 -20
+k10 -20
+k11 -20
+k12 -20
+k13 -20
+k14 -20
+k15 -20
+k16 -20
+k17 -20
+k18 -20
+k19 -20
+k20 -20
+end parameters
+
+begin observables
+#Molecules A A()
+#Molecules B B()
+Molecules B B()
+#Molecules D D()
+#Molecules E E()
+end observables
+
+
+begin seed species
+A() 100
+end seed species
+
+begin reaction rules
+A() <-> B() 10^k1,10^k2
+A() <-> C()  10^k3,10^k4
+A() <-> D() 10^k5,10^k6
+B() <-> C()  10^k7,10^k8
+B() <-> D() 10^k9,10^k10
+C() <-> D() 10^k11,10^k12
+A() <-> E() 10^k13,10^k14
+B() <-> E() 10^k15,10^k16
+C() <-> E() 10^k17,10^k18
+D() <-> E() 10^k19,10^k20
+end reaction rules
+
+end model
+generate_network({overwrite=>1})
+writeMfile({})
+writeMexfile({})
+#Equilibration
+simulate_ode({t_start=>0,t_end=>50,n_steps=>5,atol=>1.0E-6,rtol=>1.0E-8})
